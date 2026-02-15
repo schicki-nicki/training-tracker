@@ -1439,7 +1439,7 @@ function renderPlanDayContent(dow, sched) {
   if (sched.type === 'kraft' && sched.session) {
     const sess = sched.session;
     const wId = 'w' + dow, eId = 'e' + dow, cId = 'c' + dow;
-    const wCol = collapsedSections.has(wId), eCol = collapsedSections.has(eId), cCol = collapsedSections.has(cId);
+    const wCol = !openSections.has(wId), eCol = !openSections.has(eId), cCol = !openSections.has(cId);
 
     // Warm-up
     html += `<div class="plan-section-title ${wCol?'collapsed':''}" id="secTitle_${wId}" onclick="togglePlanSection('${wId}')">
@@ -1476,7 +1476,7 @@ function renderPlanDayContent(dow, sched) {
 
   } else if (sched.details) {
     const aId = 'a' + dow;
-    const aCol = collapsedSections.has(aId);
+    const aCol = !openSections.has(aId);
     html += `<div class="plan-section-title ${aCol?'collapsed':''}" id="secTitle_${aId}" onclick="togglePlanSection('${aId}')">
       <span>Ablauf</span><span class="section-chevron">›</span>
     </div><div class="plan-section-body plan-step-list ${aCol?'collapsed':''}" id="secBody_${aId}" style="max-height:${aCol?'0':'2000px'}">`;
@@ -1486,20 +1486,20 @@ function renderPlanDayContent(dow, sched) {
   return html;
 }
 
-let collapsedSections = new Set();
+let openSections = new Set();
 
 function togglePlanSection(id) {
   const title = document.getElementById('secTitle_' + id);
   const body = document.getElementById('secBody_' + id);
-  if (collapsedSections.has(id)) {
-    collapsedSections.delete(id);
+  if (openSections.has(id)) {
+    openSections.delete(id);
+    title.classList.add('collapsed');
+    body.classList.add('collapsed');
+  } else {
+    openSections.add(id);
     title.classList.remove('collapsed');
     body.classList.remove('collapsed');
     body.style.maxHeight = body.scrollHeight + 'px';
-  } else {
-    collapsedSections.add(id);
-    title.classList.add('collapsed');
-    body.classList.add('collapsed');
   }
 }
 
