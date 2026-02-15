@@ -1,0 +1,17 @@
+{
+  "name": "Training Tracker — 12-Wochen Programm",
+  "short_name": "Training",
+  "start_url": "/Tracking_App.html",
+  "display": "standalone",
+  "background_color": "#0a1628",
+  "theme_color": "#0a1628",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='112' fill='%230a1628'/><rect x='64' y='208' width='80' height='96' rx='16' fill='%234a90d9'/><rect x='368' y='208' width='80' height='96' rx='16' fill='%234a90d9'/><rect x='128' y='176' width='32' height='160' rx='16' fill='%232ecc71'/><rect x='352' y='176' width='32' height='160' rx='16' fill='%232ecc71'/><rect x='160' y='232' width='192' height='48' rx='16' fill='%23e8ecf4'/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
