@@ -1,7 +1,7 @@
 {
   "name": "Training Tracker — 12-Wochen Programm",
   "short_name": "Training",
-  "start_url": "/Tracking_App.html",
+  "start_url": "./Tracking_App.html",
   "display": "standalone",
   "background_color": "#0a1628",
   "theme_color": "#0a1628",
