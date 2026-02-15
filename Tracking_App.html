@@ -360,6 +360,10 @@ input[type="range"]::-webkit-slider-thumb {
 }
 .plan-ex-params { font-size:12px; color:var(--accent); font-weight:500; }
 .plan-ex-cues { font-size:12px; color:var(--text-secondary); line-height:1.5; }
+.plan-ex-detail { max-height:0; overflow:hidden; transition:max-height 0.3s ease, opacity 0.2s ease; opacity:0; }
+.plan-ex-card.ex-open .plan-ex-detail { max-height:500px; opacity:1; }
+.plan-ex-header { cursor:pointer; }
+.plan-ex-toggle { font-size:11px; color:var(--text-muted); margin-top:2px; }
 .plan-ex-cue { padding:2px 0; }
 .plan-ex-cue::before { content:'→ '; color:var(--accent); }
 .plan-ex-alt { font-size:11px; color:var(--yellow); margin-top:4px; font-style:italic; }
@@ -1454,15 +1458,18 @@ function renderPlanDayContent(dow, sched) {
       <span>Uebungen — Block ${planBlock}</span><span class="section-chevron">›</span>
     </div><div class="plan-section-body ${eCol?'collapsed':''}" id="secBody_${eId}" style="max-height:${eCol?'0':'2000px'}">`;
     exList.forEach((ex, i) => {
-      html += `<div class="plan-ex-card ${ex.shoulder ? 'shoulder-ex' : ''}">
+      const exId = `ex_${dow}_${i}`;
+      html += `<div class="plan-ex-card ${ex.shoulder ? 'shoulder-ex' : ''}" id="${exId}" onclick="this.classList.toggle('ex-open')">
         <div class="plan-ex-header">
           <div class="plan-ex-name">${i+1}. ${ex.name}</div>
           ${ytBtn(ex.name)}
           <div class="plan-ex-params">${ex.params}</div>
         </div>
-        <div class="plan-ex-cues">${ex.cues.map(c => `<div class="plan-ex-cue">${c}</div>`).join('')}</div>
-        ${ex.ampel ? `<div class="plan-ex-ampel" style="color:var(--yellow)">Ampel: ${ex.ampel}</div>` : ''}
-        ${ex.alt ? `<div class="plan-ex-alt">Alternative: ${ex.alt}</div>` : ''}
+        <div class="plan-ex-detail">
+          <div class="plan-ex-cues">${ex.cues.map(c => `<div class="plan-ex-cue">${c}</div>`).join('')}</div>
+          ${ex.ampel ? `<div class="plan-ex-ampel" style="color:var(--yellow)">Ampel: ${ex.ampel}</div>` : ''}
+          ${ex.alt ? `<div class="plan-ex-alt">Alternative: ${ex.alt}</div>` : ''}
+        </div>
       </div>`;
     });
     html += '</div>';
@@ -1517,13 +1524,15 @@ function renderPlanRoutines() {
     </div>`;
     html += `<div class="plan-routine-detail ${isOpen ? 'open' : ''}" id="planRoutine_${key}">`;
     exList.forEach((ex, i) => {
-      html += `<div class="plan-ex-card">
+      html += `<div class="plan-ex-card" onclick="this.classList.toggle('ex-open')">
         <div class="plan-ex-header">
           <div class="plan-ex-name">${i+1}. ${ex.name}</div>
           ${ytBtn(ex.name)}
           <div class="plan-ex-params">${ex.params}</div>
         </div>
-        <div class="plan-ex-cues">${ex.cues.map(c => `<div class="plan-ex-cue">${c}</div>`).join('')}</div>
+        <div class="plan-ex-detail">
+          <div class="plan-ex-cues">${ex.cues.map(c => `<div class="plan-ex-cue">${c}</div>`).join('')}</div>
+        </div>
       </div>`;
     });
     html += '</div>';
@@ -1544,13 +1553,15 @@ function renderPlanPullup() {
   const exList = pullupPlan[planBlock] || [];
   let html = `<div class="info-box" style="margin-bottom:8px">NUR bei GRUEN-Ampel! 2-3x/Woche am Ende von Session A oder B.</div>`;
   exList.forEach((ex, i) => {
-    html += `<div class="plan-ex-card">
+    html += `<div class="plan-ex-card" onclick="this.classList.toggle('ex-open')">
       <div class="plan-ex-header">
         <div class="plan-ex-name">${i+1}. ${ex.name}</div>
         ${ytBtn(ex.name)}
         <div class="plan-ex-params">${ex.params}</div>
       </div>
-      <div class="plan-ex-cues">${ex.cues.map(c => `<div class="plan-ex-cue">${c}</div>`).join('')}</div>
+      <div class="plan-ex-detail">
+        <div class="plan-ex-cues">${ex.cues.map(c => `<div class="plan-ex-cue">${c}</div>`).join('')}</div>
+      </div>
     </div>`;
   });
   document.getElementById('planPullup').innerHTML = html;
