@@ -360,9 +360,11 @@ input[type="range"]::-webkit-slider-thumb {
 }
 .plan-ex-params { font-size:12px; color:var(--accent); font-weight:500; }
 .plan-ex-cues { font-size:12px; color:var(--text-secondary); line-height:1.5; }
-.plan-ex-detail { max-height:0; overflow:hidden; transition:max-height 0.3s ease, opacity 0.2s ease; opacity:0; }
-.plan-ex-card.ex-open .plan-ex-detail { max-height:500px; opacity:1; }
-.plan-ex-header { cursor:pointer; }
+.plan-ex-detail { display:none; padding-top:6px; }
+.plan-ex-card.ex-open .plan-ex-detail { display:block; }
+.plan-ex-card { cursor:pointer; -webkit-tap-highlight-color:rgba(74,144,217,0.15); }
+.plan-ex-header .ex-chevron { display:inline-block; font-size:14px; color:var(--text-muted); transition:transform 0.2s; margin-right:6px; }
+.plan-ex-card.ex-open .ex-chevron { transform:rotate(90deg); }
 .plan-ex-toggle { font-size:11px; color:var(--text-muted); margin-top:2px; }
 .plan-ex-cue { padding:2px 0; }
 .plan-ex-cue::before { content:'→ '; color:var(--accent); }
@@ -1459,9 +1461,9 @@ function renderPlanDayContent(dow, sched) {
     </div><div class="plan-section-body ${eCol?'collapsed':''}" id="secBody_${eId}" style="max-height:${eCol?'0':'2000px'}">`;
     exList.forEach((ex, i) => {
       const exId = `ex_${dow}_${i}`;
-      html += `<div class="plan-ex-card ${ex.shoulder ? 'shoulder-ex' : ''}" id="${exId}" onclick="this.classList.toggle('ex-open')">
+      html += `<div class="plan-ex-card ${ex.shoulder ? 'shoulder-ex' : ''}" id="${exId}" onclick="toggleExDetail(this)">
         <div class="plan-ex-header">
-          <div class="plan-ex-name">${i+1}. ${ex.name}</div>
+          <span class="ex-chevron">›</span><div class="plan-ex-name">${i+1}. ${ex.name}</div>
           ${ytBtn(ex.name)}
           <div class="plan-ex-params">${ex.params}</div>
         </div>
@@ -1491,6 +1493,10 @@ function renderPlanDayContent(dow, sched) {
     html += '</div>';
   }
   return html;
+}
+
+function toggleExDetail(el) {
+  el.classList.toggle('ex-open');
 }
 
 let openSections = new Set();
@@ -1524,9 +1530,9 @@ function renderPlanRoutines() {
     </div>`;
     html += `<div class="plan-routine-detail ${isOpen ? 'open' : ''}" id="planRoutine_${key}">`;
     exList.forEach((ex, i) => {
-      html += `<div class="plan-ex-card" onclick="this.classList.toggle('ex-open')">
+      html += `<div class="plan-ex-card" onclick="toggleExDetail(this)">
         <div class="plan-ex-header">
-          <div class="plan-ex-name">${i+1}. ${ex.name}</div>
+          <span class="ex-chevron">›</span><div class="plan-ex-name">${i+1}. ${ex.name}</div>
           ${ytBtn(ex.name)}
           <div class="plan-ex-params">${ex.params}</div>
         </div>
@@ -1553,9 +1559,9 @@ function renderPlanPullup() {
   const exList = pullupPlan[planBlock] || [];
   let html = `<div class="info-box" style="margin-bottom:8px">NUR bei GRUEN-Ampel! 2-3x/Woche am Ende von Session A oder B.</div>`;
   exList.forEach((ex, i) => {
-    html += `<div class="plan-ex-card" onclick="this.classList.toggle('ex-open')">
+    html += `<div class="plan-ex-card" onclick="toggleExDetail(this)">
       <div class="plan-ex-header">
-        <div class="plan-ex-name">${i+1}. ${ex.name}</div>
+        <span class="ex-chevron">›</span><div class="plan-ex-name">${i+1}. ${ex.name}</div>
         ${ytBtn(ex.name)}
         <div class="plan-ex-params">${ex.params}</div>
       </div>
