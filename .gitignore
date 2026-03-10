@@ -1,0 +1,4 @@
+*.pdf
+.claude/
+.DS_Store
+shared_context.md
